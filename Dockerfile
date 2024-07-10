@@ -20,6 +20,7 @@ RUN apk add --update --no-cache \
 
 ENV TUN=tun0 \
     MTU=8500 \
+    MULTI_QUEUE=false \
     IPV4=198.18.0.1 \
     IPV6='' \
     TABLE=20 \
@@ -29,8 +30,12 @@ ENV TUN=tun0 \
     SOCKS5_USERNAME='' \
     SOCKS5_PASSWORD='' \
     SOCKS5_UDP_MODE=udp \
+    SOCKS5_PIPELINE=false \
     IPV4_INCLUDED_ROUTES=0.0.0.0/0 \
     IPV4_EXCLUDED_ROUTES='' \
+    TASK_STACK_SIZE=81920 \
+    CONNECT_TIMEOUT=5000 \
+    READ_WRITE_TIMEOUT=60000 \
     LOG_LEVEL=warn
 
 HEALTHCHECK --start-period=5s --interval=5s --timeout=2s --retries=3 CMD ["test", "-f", "/success"]

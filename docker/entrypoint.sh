@@ -2,6 +2,7 @@
 
 TUN="${TUN:-tun0}"
 MTU="${MTU:-8500}"
+MULTI_QUEUE="${MULTI_QUEUE:-false}"
 IPV4="${IPV4:-198.18.0.1}"
 IPV6="${IPV6:-}"
 
@@ -13,19 +14,27 @@ SOCKS5_PORT="${SOCKS5_PORT:-1080}"
 SOCKS5_USERNAME="${SOCKS5_USERNAME:-}"
 SOCKS5_PASSWORD="${SOCKS5_PASSWORD:-}"
 SOCKS5_UDP_MODE="${SOCKS5_UDP_MODE:-udp}"
+SOCKS5_PIPELINE="${SOCKS5_PIPELINE:-false}"
 
 IPV4_INCLUDED_ROUTES="${IPV4_INCLUDED_ROUTES:-0.0.0.0/0}"
 IPV4_EXCLUDED_ROUTES="${IPV4_EXCLUDED_ROUTES:-}"
 
+TASK_STACK_SIZE="${TASK_STACK_SIZE:-81920}"
+CONNECT_TIMEOUT="${CONNECT_TIMEOUT:-5000}"
+READ_WRITE_TIMEOUT="${READ_WRITE_TIMEOUT:-60000}"
 LOG_LEVEL="${LOG_LEVEL:-warn}"
 
 config_file() {
   cat > /hs5t.yml << EOF
 misc:
+  task-stack-size: '${TASK_STACK_SIZE}'
+  connect-timeout: '${CONNECT_TIMEOUT}'
+  read-write-timeout: '${READ_WRITE_TIMEOUT}'
   log-level: '${LOG_LEVEL}'
 tunnel:
   name: '${TUN}'
   mtu: ${MTU}
+  MULTI_QUEUE: ${MULTI_QUEUE}
   ipv4: '${IPV4}'
   ipv6: '${IPV6}'
   post-up-script: '/route.sh'
@@ -33,6 +42,7 @@ socks5:
   address: '${SOCKS5_ADDR}'
   port: ${SOCKS5_PORT}
   udp: '${SOCKS5_UDP_MODE}'
+  pipeline: '${SOCKS5_PIPELINE}'
   mark: ${MARK}
 EOF
 
